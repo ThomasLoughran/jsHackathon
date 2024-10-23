@@ -25,6 +25,7 @@ export default class Solver extends AbstractSolver {
     this.generateWordList(input.rows, input.cols);
     this.updateCWWords();
     this.decipherWords();
+    console.log("KeyList: ", this.keys);
     this.solveCrossword();
     return this.decryptedCW;
   }
@@ -132,10 +133,19 @@ export default class Solver extends AbstractSolver {
     }
   }
 
-  // updates they keys map and returns true if any new keys were added to map
+  // updates the keys map and returns true if any new keys were added to map
   updateKeys = (CWWord: (string | number)[], dictWord: string): boolean => {
+    let newKeysAdded: boolean = false;
     // update keys
-    return false;
+    for (let i = 0; i < CWWord.length; i++) {
+      const char = CWWord[i];
+      if (typeof char === "number" && !this.keys.has(char)) {
+        this.keys.set(char, dictWord.charAt(i) as Letter);
+        newKeysAdded = true;
+      }
+    }
+
+    return newKeysAdded;
   };
 
   // use known keys to paritally solve all CWWords, if a word is completely solved, remove it from list (iterate backwards)

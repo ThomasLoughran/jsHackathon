@@ -14,6 +14,10 @@ export default class Solver extends AbstractSolver {
     rotateMatrixAC: (matrix: number[][]) => number[][];
     findWordsInRow(row: number[], rowLength: number): number[][];
     decipherWords(): void;
+    updateKeys: (CWWord: (string | number)[], dictWord: string) => boolean;
+    updateCWWords: () => void;
+    findPotentialMatches: (word: (number | string)[], i: number) => string[];
+    isPotentialMatch: (word: (number | string)[], dictWord: string) => boolean;
     solveCrossword(): void;
 }
 //# sourceMappingURL=SolverTS.d.ts.map
