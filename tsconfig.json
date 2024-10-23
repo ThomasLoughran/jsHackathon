@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "allowJs": true,
+    "incremental": true,
+    "importHelpers": true,
+    "sourceMap": true,
+    "removeComments": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "preserveConstEnums": true,
+    "pretty": true,
+
+    /* Additional Checks */
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Module Resolution Options */
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+
+    /* Advanced Options */
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Additional Settings */
+    "resolveJsonModule": true,
+
+    "types": ["node"],
+    "strict": true,
+    "target": "es2022",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "lib": ["es2022", "DOM"],
+    "useUnknownInCatchVariables": false,
+
+    /* Editor options */
+    "disableSizeLimit": true,
+
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
+    "noEmit": false,
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+
+  "exclude": ["node_modules", "dist"],
+
+  "include": ["src/**/*", "src/**/*.json"]
+}
