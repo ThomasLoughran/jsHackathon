@@ -139,7 +139,30 @@ export default class Solver extends AbstractSolver {
   };
 
   // use known keys to paritally solve all CWWords, if a word is completely solved, remove it from list (iterate backwards)
-  updateCWWords = () => {};
+  updateCWWords = () => {
+    for (let i = this.CWWords.length - 1; i >= 0; i--) {
+      const CWWord = this.CWWords[i];
+      // check which numbers can be replaced with known letters
+      for (let j = 0; j < CWWord.length; j++) {
+        const char = CWWord[j];
+        if (typeof char === "number" && this.keys.has(char)) {
+          this.CWWords[i][j] = this.keys.get(char) as string;
+        }
+      }
+      // if there are no numbers left in the word, remove it
+      let canRemove: boolean = true;
+      for (let j = 0; j < CWWord.length; j++) {
+        const char = CWWord[j];
+        if (typeof char === "number") {
+          canRemove = false;
+          break;
+        }
+      }
+      if (canRemove) {
+        this.CWWords.splice(i, 1);
+      }
+    }
+  };
 
   // return a list of potential words from dictionary that could match with test word
   findPotentialMatches = (word: (number | string)[], i: number): string[] => {
