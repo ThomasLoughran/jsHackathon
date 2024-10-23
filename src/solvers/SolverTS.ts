@@ -178,9 +178,31 @@ export default class Solver extends AbstractSolver {
 
   // return boolean if the word is potentially the word in the dictionary
   isPotentialMatch = (word: (number | string)[], dictWord: string): boolean => {
-    return false;
+    const map = new Map<string, number>();
+    for (let i = 0; i < word.length; i++) {
+      const char = word[i];
+      if (typeof char === "string") {
+        if (dictWord.charAt(i) !== char) {
+          return false;
+        }
+      } else {
+        // char must be a number
+        if (map.has(dictWord.charAt(i))) {
+          const num = map.get(dictWord.charAt(i));
+          if (num !== char) {
+            return false;
+          }
+        } else {
+          map.set(dictWord.charAt(i), char);
+        }
+      }
+    }
+    return true;
   };
 
   // use the keys map to generate decryptedCW
   solveCrossword(): void {}
 }
+
+// P A S T A
+// P 3 5 2 3
