@@ -1,5 +1,6 @@
 import {
   AbstractSolver,
+  DecryptedCell,
   DecryptionKey,
   EncryptedCrossword,
   Letter,
@@ -211,7 +212,21 @@ export default class Solver extends AbstractSolver {
   };
 
   // use the keys map to generate decryptedCW
-  solveCrossword(): void {}
+  solveCrossword(): void {
+    const decryptedCW: DecryptedCrossword = [];
+    for (const row of this.encryptedCW) {
+      const decryptedRow = [];
+      for (const char of row) {
+        if (this.keys.has(char)) {
+          decryptedRow.push(this.keys.get(char));
+        } else {
+          decryptedRow.push(".");
+        }
+      }
+      decryptedCW.push(decryptedRow as any);
+    }
+    this.decryptedCW = decryptedCW;
+  }
 }
 
 // P A S T A
