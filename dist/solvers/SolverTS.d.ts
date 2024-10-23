@@ -2,19 +2,16 @@ import { AbstractSolver, DecryptionKey, EncryptedCrossword, type DecryptedCrossw
 export default class Solver extends AbstractSolver {
     static readonly teamName = "Team 10";
     keys: Map<number, string>;
-    dictionary: string[];
+    dictionary: Map<number, string[]>;
     encryptedCW: EncryptedCrossword;
-    partialDecryptedCW: (number | string)[][];
+    CWWords: (number | string)[][];
     decryptedCW: DecryptedCrossword;
     initialize(input: InitializeInput): void;
     solve(input: SolveInput): DecryptedCrossword;
-    findAllMatches: () => void;
-    findUniqueKeys: (key: DecryptionKey) => Map<any, any>;
-    getConsecutiveSequences(encryptedArray: EncryptedCrossword): any[];
-    replaceNumbersWithKeys: (encrypted: EncryptedCrossword, key: DecryptionKey) => (string | number)[][];
-    decryptCW: (partiallyDecryptedCW: any, uniqueKeys: any) => any;
-    findmatchingWord(partiallyDecryptedWord: (string | number)[]): string[];
-    wordMatch(dictionaryWord: string, word: (string | number)[]): number;
-    findmatchingWord2(partialDecryptedWord: any, dictionary: string[]): string | string[];
+    formatDictionary(dictionary: string[]): void;
+    formatInitialKeys(keys: DecryptionKey): void;
+    generateWordList(numOfRows: number, numOfCols: number): void;
+    decipherWords(): void;
+    solveCrossword(): void;
 }
 //# sourceMappingURL=SolverTS.d.ts.map

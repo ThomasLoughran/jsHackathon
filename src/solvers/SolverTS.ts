@@ -1,6 +1,7 @@
 import { Key } from "readline";
 import {
   AbstractSolver,
+  DecryptionKey,
   EncryptedCrossword,
   type DecryptedCrossword,
   type InitializeInput,
@@ -16,21 +17,28 @@ export default class Solver extends AbstractSolver {
   decryptedCW: DecryptedCrossword = [];
 
   initialize(input: InitializeInput): void {
-    // formatDictionary(input.dictionary);
+    this.formatDictionary(input.dictionary);
   }
   solve(input: SolveInput): DecryptedCrossword {
     this.encryptedCW = input.encrypted;
-    // formatInitialKeys(input.key);
-    // generateWordList(input.rows, input.cols);
-    // decipherWords();
-    // solveCrossword()
+    this.formatInitialKeys(input.key);
+    this.generateWordList(input.rows, input.cols);
+    this.decipherWords();
+    this.solveCrossword();
     return this.decryptedCW;
   }
   // format dictionary into a map where the key is the length of the words, and the value is the list of words with that length
-  formatDictionary(dictionary: string[]): void {}
+  formatDictionary(dictionary: string[]): void {
+    for (let i = 3; i < 30; i++) {
+      this.dictionary.set(i, []);
+    }
+    for (const word of dictionary) {
+      this.dictionary.get(word.length)?.push(word);
+    }
+  }
 
   // passes supplied keys into a new map to store all keys
-  formatInitialKeys(keys: Key[]): void {}
+  formatInitialKeys(keys: DecryptionKey): void {}
 
   // start from the decrypted crossword and generate a list of encoded words to be stored in CWWords
   // needs breaking down
