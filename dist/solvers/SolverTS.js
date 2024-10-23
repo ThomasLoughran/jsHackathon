@@ -18,6 +18,7 @@ export default class Solver extends AbstractSolver {
         return this.decryptedCW;
     }
     formatDictionary(dictionary) {
+        this.dictionary = new Map();
         for (let i = 3; i < 30; i++) {
             this.dictionary.set(i, []);
         }
@@ -25,7 +26,12 @@ export default class Solver extends AbstractSolver {
             this.dictionary.get(word.length)?.push(word);
         }
     }
-    formatInitialKeys(keys) { }
+    formatInitialKeys(keysList) {
+        this.keys = new Map();
+        for (const key of keysList) {
+            this.keys.set(key.number, key.letter);
+        }
+    }
     generateWordList(numOfRows, numOfCols) { }
     decipherWords() { }
     solveCrossword() { }

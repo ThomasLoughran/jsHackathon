@@ -3,6 +3,7 @@ import {
   AbstractSolver,
   DecryptionKey,
   EncryptedCrossword,
+  Letter,
   type DecryptedCrossword,
   type InitializeInput,
   type SolveInput,
@@ -10,7 +11,7 @@ import {
 
 export default class Solver extends AbstractSolver {
   static readonly teamName = "Team 10";
-  keys: Map<number, string> = new Map<number, string>();
+  keys: Map<number, Letter> = new Map<number, Letter>();
   dictionary: Map<number, string[]> = new Map<number, string[]>();
   encryptedCW: EncryptedCrossword = [];
   CWWords: (number | string)[][] = [];
@@ -29,6 +30,7 @@ export default class Solver extends AbstractSolver {
   }
   // format dictionary into a map where the key is the length of the words, and the value is the list of words with that length
   formatDictionary(dictionary: string[]): void {
+    this.dictionary = new Map<number, string[]>();
     for (let i = 3; i < 30; i++) {
       this.dictionary.set(i, []);
     }
@@ -38,7 +40,12 @@ export default class Solver extends AbstractSolver {
   }
 
   // passes supplied keys into a new map to store all keys
-  formatInitialKeys(keys: DecryptionKey): void {}
+  formatInitialKeys(keysList: DecryptionKey): void {
+    this.keys = new Map<number, Letter>();
+    for (const key of keysList) {
+      this.keys.set(key.number, key.letter);
+    }
+  }
 
   // start from the decrypted crossword and generate a list of encoded words to be stored in CWWords
   // needs breaking down
