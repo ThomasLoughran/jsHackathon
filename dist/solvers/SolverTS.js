@@ -32,7 +32,35 @@ export default class Solver extends AbstractSolver {
             this.keys.set(key.number, key.letter);
         }
     }
-    generateWordList(numOfRows, numOfCols) { }
+    generateWordList(numOfRows, numOfCols) {
+        this.CWWords = [];
+        for (const row of this.encryptedCW) {
+            this.CWWords.push(...this.findWordsInRow(row, numOfCols));
+        }
+        console.log("CWWords", this.CWWords);
+    }
+    findWordsInRow(row, rowLength) {
+        const wordList = [];
+        let i = 0;
+        let j = 0;
+        while (i < rowLength) {
+            if (row[i] === 0) {
+                i++;
+            }
+            else {
+                j = i + 1;
+                while (j < rowLength && row[j] !== 0) {
+                    j++;
+                }
+                const slice = row.slice(i, j);
+                if (slice.length > 2) {
+                    wordList.push(slice);
+                }
+                i = j;
+            }
+        }
+        return wordList;
+    }
     decipherWords() { }
     solveCrossword() { }
 }

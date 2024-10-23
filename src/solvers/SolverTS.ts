@@ -1,4 +1,3 @@
-import { Key } from "readline";
 import {
   AbstractSolver,
   DecryptionKey,
@@ -49,7 +48,44 @@ export default class Solver extends AbstractSolver {
 
   // start from the decrypted crossword and generate a list of encoded words to be stored in CWWords
   // needs breaking down
-  generateWordList(numOfRows: number, numOfCols: number): void {}
+  generateWordList(numOfRows: number, numOfCols: number): void {
+    // use two pointers
+    // make an empty list of all possible words in all rows
+    // row by row
+    // if you encounter a !0 number, keep track of start point
+    // move forward with second pointer until (either 0 char or end of row) is reached
+    // find length between two pointers, if at least 3, new word found, copy a slice of the word and add it to words list
+    // set the first pointer equal to the second and start the process again until the end of the line
+    // repeat the process for the vertical columns (maybe need some rotation)
+    this.CWWords = [];
+    for (const row of this.encryptedCW) {
+      this.CWWords.push(...this.findWordsInRow(row, numOfCols));
+    }
+    console.log("CWWords", this.CWWords);
+  }
+
+  findWordsInRow(row: number[], rowLength: number): number[][] {
+    const wordList: number[][] = [];
+    let i: number = 0;
+    let j: number = 0;
+    while (i < rowLength) {
+      if (row[i] === 0) {
+        i++;
+      } else {
+        // hit a number (exciting times)
+        j = i + 1;
+        while (j < rowLength && row[j] !== 0) {
+          j++;
+        }
+        const slice = row.slice(i, j);
+        if (slice.length > 2) {
+          wordList.push(slice);
+        }
+        i = j;
+      }
+    }
+    return wordList;
+  }
 
   // convert all the words from numbers to letters and update all keys
   decipherWords(): void {}

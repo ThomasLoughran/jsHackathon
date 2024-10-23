@@ -11,6 +11,7 @@ export default class Solver extends AbstractSolver {
     formatDictionary(dictionary: string[]): void;
     formatInitialKeys(keysList: DecryptionKey): void;
     generateWordList(numOfRows: number, numOfCols: number): void;
+    findWordsInRow(row: number[], rowLength: number): number[][];
     decipherWords(): void;
     solveCrossword(): void;
 }
