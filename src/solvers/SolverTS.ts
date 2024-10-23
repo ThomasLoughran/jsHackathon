@@ -23,6 +23,7 @@ export default class Solver extends AbstractSolver {
     this.encryptedCW = input.encrypted;
     this.formatInitialKeys(input.key);
     this.generateWordList(input.rows, input.cols);
+    this.updateCWWords();
     this.decipherWords();
     this.solveCrossword();
     return this.decryptedCW;
@@ -106,7 +107,56 @@ export default class Solver extends AbstractSolver {
   }
 
   // convert all the words from numbers to letters and update all keys
-  decipherWords(): void {}
+  decipherWords(): void {
+    // while there are still words in the wordList
+    // for each word in wordList
+    // evluate if there is a potential match between itself and dict word
+    // if there is only on possible match, remove that word and update the keys
+    // apply the updated keys to all words
+
+    while (this.CWWords.length) {
+      for (let i = this.CWWords.length - 1; i >= 0; i--) {
+        const word = this.CWWords[i];
+        const potentialMatches = this.findPotentialMatches(word, i);
+        if (potentialMatches.length === 1) {
+          // only one possible word that matches
+          // update keys map with all of the newly discovered key:value pairs
+          const matchedWord = this.CWWords.splice(i, 1)[0];
+
+          if (this.updateKeys(matchedWord, potentialMatches[0])) {
+            // new keys were added to the keys list, so update the CWWords to fill in potential missing words
+            this.updateCWWords();
+          }
+        }
+      }
+    }
+  }
+
+  // updates they keys map and returns true if any new keys were added to map
+  updateKeys = (CWWord: (string | number)[], dictWord: string): boolean => {
+    // update keys
+    return false;
+  };
+
+  // use known keys to paritally solve all CWWords, if a word is completely solved, remove it from list (iterate backwards)
+  updateCWWords = () => {};
+
+  // return a list of potential words from dictionary that could match with test word
+  findPotentialMatches = (word: (number | string)[], i: number): string[] => {
+    const potentialMatches: string[] = [];
+    const dictList = this.dictionary.get(word.length);
+    for (const dictWord of dictList as string[]) {
+      if (this.isPotentialMatch(word, dictWord)) {
+        potentialMatches.push(dictWord);
+      }
+    }
+    return potentialMatches;
+  };
+
+  // return boolean if the word is potentially the word in the dictionary
+  isPotentialMatch = (word: (number | string)[], dictWord: string): boolean => {
+    return false;
+  };
 
   // use the keys map to generate decryptedCW
   solveCrossword(): void {}
