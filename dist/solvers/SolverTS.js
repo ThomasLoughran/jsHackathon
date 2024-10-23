@@ -37,8 +37,16 @@ export default class Solver extends AbstractSolver {
         for (const row of this.encryptedCW) {
             this.CWWords.push(...this.findWordsInRow(row, numOfCols));
         }
-        console.log("CWWords", this.CWWords);
+        const rotatedEncryptedCW = this.rotateMatrixAC([...this.encryptedCW]);
+        for (const row of rotatedEncryptedCW) {
+            this.CWWords.push(...this.findWordsInRow(row, numOfRows));
+        }
     }
+    rotateMatrixAC = (matrix) => {
+        const transposedMatrix = matrix[0].map((_, i) => matrix.map((row) => row[i]));
+        const rotatedMatrix = transposedMatrix.map((row) => row.reverse());
+        return rotatedMatrix;
+    };
     findWordsInRow(row, rowLength) {
         const wordList = [];
         let i = 0;

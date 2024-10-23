@@ -57,12 +57,30 @@ export default class Solver extends AbstractSolver {
     // find length between two pointers, if at least 3, new word found, copy a slice of the word and add it to words list
     // set the first pointer equal to the second and start the process again until the end of the line
     // repeat the process for the vertical columns (maybe need some rotation)
+
+    // iterate through rows
     this.CWWords = [];
     for (const row of this.encryptedCW) {
       this.CWWords.push(...this.findWordsInRow(row, numOfCols));
     }
-    console.log("CWWords", this.CWWords);
+
+    // iterate through cols
+    const rotatedEncryptedCW = this.rotateMatrixAC([...this.encryptedCW]);
+    for (const row of rotatedEncryptedCW) {
+      this.CWWords.push(...this.findWordsInRow(row, numOfRows));
+    }
   }
+
+  rotateMatrixAC = (matrix: number[][]) => {
+    // transpose image matrix
+    const transposedMatrix = matrix[0].map((_, i) =>
+      matrix.map((row) => row[i])
+    );
+
+    // reverse the order of rows to rotate the image by 90 degrees counterclockwise
+    const rotatedMatrix = transposedMatrix.map((row) => row.reverse());
+    return rotatedMatrix;
+  };
 
   findWordsInRow(row: number[], rowLength: number): number[][] {
     const wordList: number[][] = [];
